@@ -31,8 +31,8 @@ const Hero = () => {
         </div>
         <div className="para-here">
           <span className="lg:text-xl md:text-lg">
-            Trade on your convictions, earn from your insights. India's first
-            social prediction market where opinions have real value.
+            Trade on your convictions, earn from your insights. India&apos;s
+            first social prediction market where opinions have real value.
           </span>
         </div>
         <div className="CTA-buttons flex md:flex-row flex-col py-10 gap-5">
@@ -148,8 +148,9 @@ const DetailCrad = () => {
   return (
     <div className="bg-secondary  text-foreground flex md:flex-row flex-col justify-center align-middle md:items-center items-start p-3 rounded-xl gap-2">
       <div className="images flex  gap-2 ">
-        {imageLink.map((image) => (
+        {imageLink.map((image, index) => (
           <Image
+            key={index}
             src={image}
             alt="img"
             className="md:size-16 size-10 bg-primary rounded-full "
