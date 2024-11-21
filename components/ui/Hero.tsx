@@ -16,11 +16,12 @@ import {
 import { Progress } from "./progress";
 import { Card, CardContent, CardFooter } from "./card";
 import { Badge } from "./badge";
+import Link from "next/link";
 
 const Hero = () => {
   return (
     <div className="md:grid grid-cols-2 md:p-24 relative p-5 overflow-hidden">
-      <div className="left-part dark gap-2 flex flex-col  text-foreground mt-16">
+      <div className="left-part dark gap-2 flex flex-col  text-foreground mt-16 z-40">
         <div className="small-tagline bg-primary/15 max-w-max px-2 rounded-xl">
           <span className="text-primary">Khelo Dimag se</span>
         </div>
@@ -36,7 +37,9 @@ const Hero = () => {
           </span>
         </div>
         <div className="CTA-buttons flex md:flex-row flex-col py-10 gap-5">
-          <Button>Start Trading Now</Button>
+          <Button className="hover:cursor-pointer">
+            <Link href={"/StartTradingNow"}>Start Trading Now</Link>
+          </Button>
           <Button>How It Works?</Button>
         </div>
       </div>
@@ -56,12 +59,12 @@ const Hero = () => {
           <DetailCrad />
         </div>
       </div>
-      <div className="absolute bottom-0 right-0 ">
+      <div className="absolute bottom-0 right-0  ">
         <Image
           src={GraphChartImage}
           objectFit="cover"
           alt="kjebf"
-          className="opacity-10 "
+          className="opacity-10 -z-50 "
         />
       </div>
     </div>

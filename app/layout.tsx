@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
+import RecoilContextProvider from "@/lib/RecoilContextProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,8 +30,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background dark flex justify-center align-middle items-center flex-col`}
       >
-        <Navbar />
-        {children}
+        <RecoilContextProvider>
+          <Navbar />
+          {children}
+        </RecoilContextProvider>
       </body>
     </html>
   );

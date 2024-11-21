@@ -21,14 +21,24 @@ const KeyFeatures = () => {
           traders.
         </p>
       </div>
-      <div className="flex gap-2 flex-col  md:grid grid-cols-2 grid-rows-3">
-        {features.map((feat) => (
-          <KeyFeaturesCard
-            key={feat.id}
-            {...feat}
-            className={feat.id == 2 ? `` : ``}
-          />
-        ))}
+      <div className="flex gap-2 flex-col  md:grid grid-cols-2  max-h-max   ">
+        <KeyFeaturesCard
+          title={features[0].title}
+          description={features[0].description}
+          src={features[0].src}
+        />
+        <KeyFeaturesCard
+          title={features[1].title}
+          description={features[1].description}
+          src={features[1].src}
+          className="md:row-span-2 md:flex flex-col"
+          imageclassName="size-96"
+        />
+        <KeyFeaturesCard
+          title={features[2].title}
+          description={features[2].description}
+          src={features[2].src}
+        />
       </div>
     </div>
   );
@@ -41,6 +51,7 @@ interface KeyFeaturesCardProps {
   description: string;
   src: StaticImageData;
   className?: string;
+  imageclassName?: string;
 }
 
 function KeyFeaturesCard({
@@ -48,6 +59,7 @@ function KeyFeaturesCard({
   description,
   src,
   className,
+  imageclassName,
 }: KeyFeaturesCardProps) {
   return (
     <div
@@ -60,11 +72,16 @@ function KeyFeaturesCard({
         <span className="font-semibold text-xl">{title}</span>
         <p className="text-background ">{description}</p>
       </div>
-      <Image
-        src={src}
-        alt="image"
-        className="md:size-48 object-cover rounded-xl "
-      />
+      <div className="w-full ">
+        <Image
+          src={src}
+          alt="image"
+          className={cn(
+            " object-cover rounded-xl md:w-full md:h-full ",
+            imageclassName
+          )}
+        />
+      </div>
     </div>
   );
 }
