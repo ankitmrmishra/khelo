@@ -2,6 +2,7 @@ import React from "react";
 import Hero from "./ui/Hero";
 import KeyFeatures from "./ui/KeyFeatures";
 import HowItWorks from "./ui/HowItWorks";
+import CTA from "./ui/CTA";
 
 const LandingPage = () => {
   return (
@@ -9,6 +10,7 @@ const LandingPage = () => {
       <Hero />
       <KeyFeatures />
       <HowItWorks />
+      <CTA />
     </div>
   );
 };
