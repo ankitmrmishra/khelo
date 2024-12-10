@@ -2,7 +2,7 @@
 import { Book, ChartNoAxesCombined, Dices, PanelsTopLeft } from "lucide-react";
 import React from "react";
 import { Button } from "./button";
-
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import {
   Sheet,
   SheetClose,
@@ -33,6 +33,14 @@ const Navbar = () => {
       <div className="endCTA gap-5  md:flex hidden">
         <Button>Download App</Button>
         <Button>Trade Online</Button>
+        <SignedOut>
+          <Button className="">
+            <SignInButton />
+          </Button>
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </div>
 
       <div className="md:hidden ">

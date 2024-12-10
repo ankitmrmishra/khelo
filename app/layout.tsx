@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
-import RecoilContextProvider from "@/lib/RecoilContextProvider";
+
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark, neobrutalism } from "@clerk/themes";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -50,16 +52,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head></head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background dark flex justify-center align-middle items-center flex-col`}
-      >
-        <RecoilContextProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: [dark, neobrutalism],
+      }}
+    >
+      <html lang="en">
+        <head></head>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background dark flex justify-center align-middle items-center flex-col`}
+        >
           <Navbar />
+
           {children}
-        </RecoilContextProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

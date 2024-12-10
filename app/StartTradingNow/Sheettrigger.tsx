@@ -1,3 +1,4 @@
+"use client";
 import {
   Sheet,
   SheetContent,
@@ -8,6 +9,10 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import React, { ReactNode } from "react";
+
+import { useTradingCardStore } from "../store/atoms/TradingCradState";
+import { Badge } from "@/components/ui/badge";
+import { Users } from "lucide-react";
 
 interface SheetTriggerProps {
   buttonprop: string;
@@ -20,6 +25,8 @@ const Sheettrigger = ({
   children,
   SheetTriggerclassName,
 }: SheetTriggerProps) => {
+  const { noOfTraders, title, description } = useTradingCardStore();
+
   return (
     <Sheet>
       <SheetTrigger
@@ -32,11 +39,18 @@ const Sheettrigger = ({
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
+          <SheetTitle>
+            {title}
+            <Badge
+              variant={"outline"}
+              className="text-sm bg-emerald-100 text-emerald-800  shadow-[0_0_10px_rgba(0,255,255,0.5)] rounded-full"
+            >
+              <Users className="size-4" />
+              {noOfTraders} Traders
+            </Badge>
+          </SheetTitle>
+
+          <SheetDescription>{description}</SheetDescription>
         </SheetHeader>
       </SheetContent>
       {children}

@@ -1,3 +1,4 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
 // import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +18,8 @@ import {
 import { TrendingUpIcon, Users } from "lucide-react";
 import Sheettrigger from "./Sheettrigger";
 
+import { useTradingCardStore } from "../store/atoms/TradingCradState";
+
 interface TradingCardsProps {
   noOfTraders: number;
   title: string;
@@ -28,8 +31,21 @@ const TradingCards = ({
   title,
   description,
 }: TradingCardsProps) => {
+  const setTradingcardprops = useTradingCardStore(
+    (state) => state.setTradingCardState
+  );
+  const updateState = () => {
+    setTradingcardprops({
+      title: title,
+      description: description,
+      noOfTraders: noOfTraders,
+    });
+  };
   return (
-    <Card className="bg-white text-background h-80 flex flex-col justify-between align-middle ">
+    <Card
+      onClick={updateState}
+      className="bg-white text-background h-80 flex flex-col justify-between align-middle "
+    >
       <CardHeader>
         <div className="flex justify-between items-center align-middle ">
           {" "}
