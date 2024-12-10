@@ -10,6 +10,7 @@ import {
   SheetFooter,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -18,7 +19,7 @@ const Navbar = () => {
         <div className="logo ">
           <span className="flex justify-between align-middle items-center text-3xl text-primary">
             <Dices className="size-9 " />
-            Khelo
+            <Link href={"/"}>Khelo</Link>
           </span>
         </div>
         <div className="midsection  justify-between align-middle items-center gap-4 md:flex hidden">
@@ -43,8 +44,11 @@ const Navbar = () => {
         </SignedIn>
       </div>
 
-      <div className="md:hidden ">
+      <div className="md:hidden flex  justify-center align-middle items-center gap-2">
         <MobileBar />
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </div>
     </div>
   );
@@ -75,6 +79,11 @@ export function MobileBar() {
             <div className="endCTA gap-5  flex flex-col mt-10 ">
               <Button>Download App</Button>
               <Button>Trade Online</Button>
+              <SignedOut>
+                <Button className="">
+                  <SignInButton />
+                </Button>
+              </SignedOut>
             </div>
           </SheetClose>
         </SheetFooter>
