@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const KeyFeatures = () => {
   return (
-    <div className="flex flex-col justify-center align-middle items-center mt-10 bg-card-foreground p-10 md:px-44 text-center gap-2">
+    <div className="flex flex-col justify-center align-middle items-center mt-10 bg-card-foreground px-2 py-4 md:px-44 text-center gap-2">
       <div className="small-tagline bg-primary/15 max-w-max px-2 rounded-xl">
         <span className="text-primary">Khelo Dimag se</span>
       </div>

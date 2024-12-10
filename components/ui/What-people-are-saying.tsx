@@ -3,11 +3,11 @@ import { AnimatedTestimonials } from "./testimonials";
 
 const Whatpeoplearesaying = () => {
   return (
-    <div className="bg-[#F9FAFB] flex flex-col gap-6 justify-center align-middle items-center w-full py-5 md:px-20">
+    <div className="bg-[#F9FAFB] flex flex-col gap-6 justify-center align-middle items-center w-full py-5 md:px-20 px-2">
       <div className="small-tagline bg-primary/15 max-w-max px-2 rounded-xl">
         <span className="text-primary">What people are talking about?</span>
       </div>
-      <div className="bg-background w-full flex flex-col justify-center align-middle items-center  md:rounded-3xl md:px-10 px-2 py-5 text-center">
+      <div className="bg-background w-full flex flex-col justify-center align-middle items-center  rounded-3xl md:px-10 px-2 py-5 text-center">
         <div className="text-primary text-3xl md:text-7xl font-semibold max-w-4xl">
           Real Stories, Real Success: Hear From Our Khelo Community
         </div>
