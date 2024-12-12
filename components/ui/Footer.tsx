@@ -16,8 +16,8 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-gray-400">
-              India's first social prediction market where opinions have real
-              value.
+              India&apos;s first social prediction market where opinions have
+              real value.
             </p>
             <div className="flex space-x-4">
               <Link href="#" className="text-gray-400 hover:text-purple-500">

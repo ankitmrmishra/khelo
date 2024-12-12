@@ -10,9 +10,19 @@ import {
 import { cn } from "@/lib/utils";
 import React, { ReactNode } from "react";
 
-import { useTradingCardStore } from "../store/atoms/TradingCradState";
+import {
+  useamountincdecStore,
+  useTradingCardStore,
+} from "../store/atoms/TradingCradState";
 import { Badge } from "@/components/ui/badge";
-import { Users } from "lucide-react";
+import { Minus, Plus, Users } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from "@/components/ui/card";
 
 interface SheetTriggerProps {
   buttonprop: string;
@@ -26,7 +36,7 @@ const Sheettrigger = ({
   SheetTriggerclassName,
 }: SheetTriggerProps) => {
   const { noOfTraders, title, description } = useTradingCardStore();
-
+  const { val, setInc, setdec } = useamountincdecStore();
   return (
     <Sheet>
       <SheetTrigger
@@ -52,6 +62,42 @@ const Sheettrigger = ({
 
           <SheetDescription>{description}</SheetDescription>
         </SheetHeader>
+        {/* /////////////// HERE WE WILL ADD TABS FOR TRIGGERING YES AND NO CHART///////////////////////////////// */}
+
+        <div className="tabs_here w-full mt-9">
+          <Tabs defaultValue="Yes" className="w-full ">
+            <TabsList className="w-full h-10 ">
+              <TabsTrigger className="w-full h-8 " value="Yes">
+                YES
+              </TabsTrigger>
+              <TabsTrigger className="w-full h-8" value="No">
+                No
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="Yes">
+              <Card>
+                <CardHeader>
+                  <CardDescription className="flex justify-between align-middle items-center ">
+                    <span>Total Balance</span>
+                    <span className="">Rs.900</span>
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="money_change border border-green-100 rounded-lg p-3 flex justify-between align-middle items-center">
+                    <div className="inc" onClick={() => setInc()}>
+                      <Plus className="bg-green-400 text-black rounded-md" />
+                    </div>
+                    <div className="valueof">{val}</div>
+                    <div className="dec" onClick={() => setdec()}>
+                      <Minus className="bg-red-400 text-black rounded-md" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="No">This is No triggered</TabsContent>
+          </Tabs>
+        </div>
       </SheetContent>
       {children}
     </Sheet>

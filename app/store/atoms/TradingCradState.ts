@@ -16,3 +16,29 @@ export const useTradingCardStore = create<TradingCardState>((set) => ({
   setTradingCardState: (state) =>
     set((currentState) => ({ ...currentState, ...state })),
 }));
+
+interface IncedecvalueState {
+  val: number;
+
+  setInc: () => void;
+  setdec: () => void;
+}
+
+export const useamountincdecStore = create<IncedecvalueState>((set) => ({
+  val: 0,
+
+  setInc: () =>
+    set((state) => {
+      if (state.val < 10) {
+        return { val: state.val + 1 };
+      }
+      return state;
+    }),
+  setdec: () =>
+    set((state) => {
+      if (state.val > 0) {
+        return { val: state.val - 1 };
+      }
+      return state;
+    }),
+}));
