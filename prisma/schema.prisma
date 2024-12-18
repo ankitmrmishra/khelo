@@ -14,16 +14,19 @@ datasource db {
 }
 
 model User {
-  id       String  @unique @default(uuid())
-  name     String
-  username String  @unique
-  password String
-  balance  BigInt
-  trades   Trade[]
+  id          String       @unique @default(uuid())
+  name        String
+  username    String       @unique
+  password    String
+  balance     BigInt
+  trades      Trade[]
+  predictions Prediction[]
 }
 
 model Prediction {
   id          String   @unique @default(uuid())
+  Creator     String
+  owner       User     @relation(references: [id], fields: [Creator])
   question    String
   outcome     Boolean
   closingTime DateTime
