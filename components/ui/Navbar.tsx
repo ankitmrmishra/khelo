@@ -32,17 +32,33 @@ const Navbar = () => {
           </span>
         </div>
         <div className="midsection  justify-between align-middle items-center gap-4 md:flex hidden">
-          <div className="trading flex justify-center align-middle items-center gap-1  text-xl hover:text-primary hover:cursor-pointer hover:scale-105 ease-linear duration-200">
-            Trading <ChartNoAxesCombined className="size-5" />
-          </div>
-          <div className="Read flex justify-center align-middle items-center gap-1  text-xl hover:text-primary hover:cursor-pointer hover:scale-105 ease-linear duration-200">
-            Read <Book className="size-5" />
-          </div>
+          <Link href={"/StartTradingNow"}>
+            <div className="trading flex justify-center align-middle items-center gap-1  text-xl hover:text-primary hover:cursor-pointer hover:scale-105 ease-linear duration-200">
+              Trading <ChartNoAxesCombined className="size-5" />
+            </div>
+          </Link>
+          <Link href={"/read"}>
+            <div className="Read flex justify-center align-middle items-center gap-1  text-xl hover:text-primary hover:cursor-pointer hover:scale-105 ease-linear duration-200">
+              Read <Book className="size-5" />
+            </div>
+          </Link>
         </div>
       </div>
       <div className="endCTA gap-5  md:flex hidden">
-        <Button>Download App</Button>
-        <Button>Trade Online</Button>
+        <div className="group relative">
+          <Button
+            disabled
+            className="block group-hover:opacity-0 transition-opacity duration-300"
+          >
+            Download App
+          </Button>
+          <Button className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            Coming Soon
+          </Button>
+        </div>
+        <Link href={"/Predictions"}>
+          <Button>Trade Online</Button>
+        </Link>
         {!isLoaded ? (
           <div className="">
             <Skeleton className="h-12 w-12 rounded-full" />
