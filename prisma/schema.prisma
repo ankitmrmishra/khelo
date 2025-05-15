@@ -13,6 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum MARKETSTATUS {
+  OPEN
+  CLOSED
+  RESOLVED
+}
+
 model User {
   id          String       @unique @default(uuid())
   name        String
@@ -21,6 +27,17 @@ model User {
   balance     BigInt
   trades      Trade[]
   predictions Prediction[]
+}
+
+model Market {
+  id          String       @unique @default(uuid())
+  Question    String
+  description String
+  category    String?
+  status      MARKETSTATUS @default(OPEN)
+  endsAt      DateTime?
+  startedon   DateTime     @default(now())
+  resolvedAt  DateTime?
 }
 
 model Prediction {

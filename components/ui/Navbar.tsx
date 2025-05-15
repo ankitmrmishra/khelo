@@ -56,7 +56,7 @@ const Navbar = () => {
             Coming Soon
           </Button>
         </div>
-        <Link href={"/Predictions"}>
+        <Link href={"/StartTradingNow"}>
           <Button>Trade Online</Button>
         </Link>
         {!isLoaded ? (
@@ -111,7 +111,9 @@ export function MobileBar() {
           <SheetClose asChild>
             <div className="endCTA gap-5  flex flex-col mt-10 ">
               <Button>Download App</Button>
-              <Button>Trade Online</Button>
+              <Link href={"/StartTradingNow"}>
+                <Button>Trade Online</Button>
+              </Link>
               <SignedOut>
                 <Button className="">
                   <SignInButton />
