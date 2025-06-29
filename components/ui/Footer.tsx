@@ -11,7 +11,7 @@ export default function Footer() {
               <div className="logo ">
                 <span className="flex justify-between align-middle items-center text-3xl text-primary">
                   <Dices className="size-9 " />
-                  <Link href={"/"}>Khelo</Link>
+                  <span>Khelo</span>
                 </span>
               </div>
             </Link>

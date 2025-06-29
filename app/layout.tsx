@@ -5,6 +5,7 @@ import Navbar from "@/components/ui/Navbar";
 
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark, neobrutalism } from "@clerk/themes";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -65,6 +66,7 @@ export default function RootLayout({
           <Navbar />
 
           {children}
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
