@@ -19,6 +19,7 @@ import { TrendingUpIcon, Users } from "lucide-react";
 import Sheettrigger from "./Sheettrigger";
 
 import { useTradingCardStore } from "../store/atoms/TradingCradState";
+import { useEffect } from "react";
 
 interface TradingCardsProps {
   noOfTraders: number;
@@ -93,4 +94,11 @@ const TradingCards = ({
   );
 };
 
-export default TradingCards;
+function TradingPage() {
+  const pagePooling = async () => {
+    useEffect(() => {}, []);
+  };
+  return <div>TradingCards</div>;
+}
+
+export default TradingPage;

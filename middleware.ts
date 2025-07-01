@@ -6,7 +6,12 @@ const isProtectedRoute = createRouteMatcher([
   "/StartTradingNow(.*)",
 ]);
 
+const isPublicRoute = createRouteMatcher([
+  "/api/market", // 👈 Mark it as public
+]);
+
 export default clerkMiddleware(async (auth, req) => {
+  if (isPublicRoute(req)) return;
   if (isProtectedRoute(req)) await auth.protect();
 });
 

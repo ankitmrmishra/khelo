@@ -24,6 +24,7 @@ export function CreateMarketPage() {
   const [formData, setFormData] = useState({
     Question: "",
     description: "",
+    category: "",
   });
 
   const handleChange = (
@@ -55,8 +56,10 @@ export function CreateMarketPage() {
       toast.success("Event has been created");
 
       // Reset form
-      setFormData({ Question: "", description: "" });
+      setFormData({ Question: "", description: "", category: "" });
     } catch (error) {
+      console.log(error);
+
       toast.error("Event has not been created");
     } finally {
       setIsLoading(false);
@@ -83,6 +86,19 @@ export function CreateMarketPage() {
                 name="Question"
                 placeholder="Will Bitcoin reach $100,000 by the end of 2024?"
                 value={formData.Question}
+                onChange={handleChange}
+                required
+              />
+            </div>{" "}
+            <div className="space-y-2">
+              <label htmlFor="category" className="text-sm font-medium">
+                Category
+              </label>
+              <Input
+                id="category"
+                name="category"
+                placeholder="Crypto"
+                value={formData.category}
                 onChange={handleChange}
                 required
               />
