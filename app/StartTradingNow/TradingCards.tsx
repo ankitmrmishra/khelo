@@ -1,6 +1,5 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
-// import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,
@@ -15,23 +14,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { TrendingUpIcon, Users } from "lucide-react";
+import { TrendingUpIcon } from "lucide-react";
 import Sheettrigger from "./Sheettrigger";
 
 import { useTradingCardStore } from "../store/atoms/TradingCradState";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface TradingCardsProps {
-  noOfTraders: number;
   title: string;
   description: string;
 }
 
-const TradingCards = ({
-  noOfTraders,
-  title,
-  description,
-}: TradingCardsProps) => {
+const TradingCards = ({ title, description }: TradingCardsProps) => {
   const setTradingcardprops = useTradingCardStore(
     (state) => state.setTradingCardState
   );
@@ -39,7 +33,6 @@ const TradingCards = ({
     setTradingcardprops({
       title: title,
       description: description,
-      noOfTraders: noOfTraders,
     });
   };
   return (
@@ -50,13 +43,6 @@ const TradingCards = ({
       <CardHeader>
         <div className="flex justify-between items-center align-middle ">
           {" "}
-          <Badge
-            variant={"outline"}
-            className="text-sm bg-emerald-100 text-emerald-800  shadow-[0_0_10px_rgba(0,255,255,0.5)] rounded-full"
-          >
-            <Users className="size-4" />
-            {noOfTraders} Traders
-          </Badge>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger className="text-red-400 flex justify-center align-middle items-center gap-2">
@@ -94,11 +80,45 @@ const TradingCards = ({
   );
 };
 
+type tradingtype = {
+  id: string;
+  Question: string;
+  description: string;
+  category: string;
+  endsAt: Date;
+};
+
 function TradingPage() {
+  const [responses, setResponse] = useState<tradingtype[]>([]);
   const pagePooling = async () => {
-    useEffect(() => {}, []);
+    const response = await fetch("/api/market", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(response);
+    console.log(data.markets, "this is data");
+    setResponse(data.markets);
   };
-  return <div>TradingCards</div>;
+  useEffect(() => {
+    pagePooling();
+  }, []);
+
+  return (
+    <div className=" w-full ">
+      <div className="grid lg:grid-cols-3 grid-cols-1 w-full gap-2 ">
+        {responses.map((res, index) => (
+          <TradingCards
+            title={res.Question}
+            description={res.description}
+            key={index}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default TradingPage;

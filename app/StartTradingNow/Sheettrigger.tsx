@@ -49,18 +49,20 @@ const Sheettrigger = ({
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>
+          <SheetTitle className="flex flex-col gap-2 text-start">
             {title}
             <Badge
               variant={"outline"}
-              className="text-sm bg-emerald-100 text-emerald-800  shadow-[0_0_10px_rgba(0,255,255,0.5)] rounded-full"
+              className="text-sm bg-emerald-100 text-emerald-800  shadow-[0_0_10px_rgba(0,255,255,0.5)] rounded-full max-w-max"
             >
               <Users className="size-4" />
               {noOfTraders} Traders
             </Badge>
           </SheetTitle>
 
-          <SheetDescription>{description}</SheetDescription>
+          <SheetDescription className="text-start">
+            {description}
+          </SheetDescription>
         </SheetHeader>
         {/* /////////////// HERE WE WILL ADD TABS FOR TRIGGERING YES AND NO CHART///////////////////////////////// */}
 

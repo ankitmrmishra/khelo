@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { CreateMarketPage } from "./CreateDashboard";
 import { useUser } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs/server";
-import { redirect, useRouter } from "next/navigation";
 
-export default function page() {
+import { useRouter } from "next/navigation";
+
+export default function Page() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
   const [allowed, setAllowed] = useState(false);
