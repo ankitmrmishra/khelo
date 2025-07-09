@@ -1,6 +1,6 @@
 "use client";
 import { Book, ChartNoAxesCombined, Dices, PanelsTopLeft } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "./button";
 import {
   SignInButton,
@@ -20,8 +20,23 @@ import Link from "next/link";
 import { Skeleton } from "./skeleton";
 
 const Navbar = () => {
-  const { isLoaded } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
 
+  useEffect(() => {
+    if (isSignedIn && user) {
+      fetch("/api/user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clerkId: user.id,
+          email: user.emailAddresses[0].emailAddress,
+          name: user.fullName,
+        }),
+      });
+
+      console.log("signed in");
+    }
+  }, [isSignedIn, user]);
   return (
     <div className="flex justify-between align-middle items-center border-2 rounded-full p-4 px-10 w-full ml-2 mr-2 md:max-w-max bg-black left-[28%] gap-14 mt-5">
       <div className="flex justify-between align-middle items-center gap-14">

@@ -20,10 +20,11 @@ enum MARKETSTATUS {
 
 model User {
   id          String       @unique @default(uuid())
+  clerkId     String       @unique
   name        String
-  username    String       @unique
-  password    String
-  balance     BigInt
+  username    String?      @unique
+  email       String
+  balance     Int
   trades      Trade[]
   predictions Prediction[]
 }

@@ -19,26 +19,31 @@ import Sheettrigger from "./Sheettrigger";
 
 import { useTradingCardStore } from "../store/atoms/TradingCradState";
 import { useEffect, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
 
 interface TradingCardsProps {
   title: string;
   description: string;
+  id: string;
 }
 
-const TradingCards = ({ title, description }: TradingCardsProps) => {
+const TradingCards = ({ title, description, id }: TradingCardsProps) => {
   const setTradingcardprops = useTradingCardStore(
     (state) => state.setTradingCardState
   );
+
+  const router = useRouter();
   const updateState = () => {
     setTradingcardprops({
       title: title,
       description: description,
     });
+    router.push(`/StartTradingNow/${id}`);
   };
   return (
     <Card
       onClick={updateState}
-      className="bg-white text-background h-80 flex flex-col justify-between align-middle "
+      className="bg-white text-background h-80 flex flex-col justify-between align-middle hover:cursor-pointer "
     >
       <CardHeader>
         <div className="flex justify-between items-center align-middle ">
@@ -111,6 +116,7 @@ function TradingPage() {
       <div className="grid lg:grid-cols-3 grid-cols-1 w-full gap-2 ">
         {responses.map((res, index) => (
           <TradingCards
+            id={res.id}
             title={res.Question}
             description={res.description}
             key={index}
