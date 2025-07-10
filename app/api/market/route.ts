@@ -60,6 +60,8 @@ export async function POST(req: NextRequest) {
           category,
           status: "OPEN",
           endsAt: closeTime,
+          yesCount: 0,
+          noCount: 0,
         },
       });
     }

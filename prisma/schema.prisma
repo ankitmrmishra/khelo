@@ -18,42 +18,41 @@ enum MARKETSTATUS {
   CLOSED
 }
 
+enum TRADETYPE {
+  YES
+  NO
+}
+
 model User {
-  id          String       @unique @default(uuid())
-  clerkId     String       @unique
-  name        String
-  username    String?      @unique
-  email       String
-  balance     Int
-  trades      Trade[]
-  predictions Prediction[]
+  id       String  @unique @default(uuid())
+  clerkId  String  @unique
+  name     String
+  username String? @unique
+  email    String
+  balance  Int
+  trades   Trade[]
 }
 
 model Market {
   id          String       @unique @default(uuid())
   Question    String
   description String
+  yesCount    BigInt
+  noCount     BigInt
   category    String
   status      MARKETSTATUS @default(OPEN)
   endsAt      DateTime
   startedon   DateTime     @default(now())
-}
-
-model Prediction {
-  id          String   @unique @default(uuid())
-  Creator     String
-  owner       User     @relation(references: [id], fields: [Creator])
-  question    String
-  outcome     Boolean
-  closingTime DateTime
-  trades      Trade[]
+  predections Trade[]
 }
 
 model Trade {
-  id           String     @unique @default(uuid())
+  id           String    @unique @default(uuid())
   UserID       String
-  user         User       @relation(fields: [UserID], references: [id])
-  TradeType    Boolean
-  predictionId String
-  prediction   Prediction @relation(fields: [predictionId], references: [id])
+  user         User      @relation(fields: [UserID], references: [id])
+  TradeType    TRADETYPE
+  tradeAmount  Int
+  time         DateTime
+  predictionId String    @default(cuid())
+  prediction   Market    @relation(fields: [predictionId], references: [id])
 }

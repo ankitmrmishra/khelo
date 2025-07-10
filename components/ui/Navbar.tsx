@@ -81,9 +81,7 @@ const Navbar = () => {
         ) : (
           <div className="">
             <SignedOut>
-              <Button className="">
-                <SignInButton />
-              </Button>
+              <SignInButton />
             </SignedOut>
             <SignedIn>
               <UserButton />
