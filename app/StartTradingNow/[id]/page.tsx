@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 export interface Marketinterface {
   id: string;
@@ -13,6 +13,10 @@ export interface Marketinterface {
 }
 
 export default function page() {
+  // here i am going to implement the CPMM for every trade
+
+  // todo for today
+
   const params = useParams();
   const id = params.id;
   const [marketdetails, setMarketdetails] = useState<Marketinterface | null>(
@@ -30,17 +34,23 @@ export default function page() {
     }
   }, [id]);
   return (
-    <div className="  w-full h-full px-20 py-10">
+    <div className="  w-full h-full lg:px-20 px-3 py-10">
       {marketdetails && (
-        <div className="">
-          <h2 className="lg:text-4xl">{marketdetails.Question} ?</h2>
-          <p className="max-w-[50rem] text-white/50">
-            {marketdetails.description}
-          </p>
-          <p className="bg-blue-100 px-5 text-black rounded-full border border-blue-500 my-3 max-w-max">
-            {marketdetails.category}
-          </p>
-          <ChartAreaInteractive />
+        <div className="grid md:grid-cols-3 grid-cols-1">
+          <div className="col-span-2">
+            <h2 className="lg:text-4xl">{marketdetails.Question} ?</h2>
+            <p className="max-w-[50rem] text-white/50">
+              {marketdetails.description}
+            </p>
+            <p className="bg-blue-100 px-5 text-black rounded-full border border-blue-500 my-3 max-w-max">
+              {marketdetails.category}
+            </p>
+            <ChartAreaInteractive />
+          </div>
+
+          <div className="sidecard">
+            <TradingSidecard />
+          </div>
         </div>
       )}
     </div>
@@ -80,6 +90,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TrendingUp } from "lucide-react";
+import { TradingSidecard } from "../sidebar-card";
 
 const chartData = [
   { time: "2025-07-08T20:00:00Z", yes: 0.52, no: 0.48 },
@@ -123,9 +134,31 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ChartAreaInteractive() {
-  const [timeRange, setTimeRange] = React.useState("24h");
+  const [timeRange, setTimeRange] = useState("24h");
+  const [tradeData, setTradeData] = useState();
+  const params = useParams();
+  const id = params.id;
 
-  const filteredData = React.useMemo(() => {
+  useEffect(() => {
+    const tradefetching = async () => {
+      const yesnocount = await fetch(`/api/trade/${id}/count`);
+      const yesnocountdata = await yesnocount.json();
+      console.log(yesnocountdata);
+
+      const data = await fetch(`/api/market/${id}`);
+      const response = await data.json();
+      console.log(
+        response,
+
+        "this is trade data and i am getting and this is the long paragraph my lazy ass is writing"
+      );
+    };
+    if (id) {
+      tradefetching();
+    }
+  }, []);
+
+  const filteredData = useMemo(() => {
     const now = new Date("2025-07-09T23:58:44Z"); // Using current time from context
     let hoursToSubtract = 24;
 
@@ -172,7 +205,7 @@ export function ChartAreaInteractive() {
   const { trend, direction } = calculateTrend();
 
   return (
-    <Card className="max-w-4xl">
+    <Card className="lg:max-w-4xl max-w-full">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <CardTitle>Yes/No Polling Data</CardTitle>

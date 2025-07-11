@@ -17,6 +17,9 @@ export async function GET(
       where: {
         id: id,
       },
+      include: {
+        predections: true,
+      },
     });
     if (!marketdetails) {
       return NextResponse.json(

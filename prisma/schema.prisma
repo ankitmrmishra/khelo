@@ -37,8 +37,10 @@ model Market {
   id          String       @unique @default(uuid())
   Question    String
   description String
-  yesCount    BigInt
-  noCount     BigInt
+  yesCount    Int
+  noCount     Int
+  yesreserve  Int
+  noreserve   Int
   category    String
   status      MARKETSTATUS @default(OPEN)
   endsAt      DateTime
@@ -53,6 +55,6 @@ model Trade {
   TradeType    TRADETYPE
   tradeAmount  Int
   time         DateTime
-  predictionId String    @default(cuid())
+  predictionId String
   prediction   Market    @relation(fields: [predictionId], references: [id])
 }

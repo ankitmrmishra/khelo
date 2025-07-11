@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { redis } from "@/lib/redis";
 import { currentUser, getAuth } from "@clerk/nextjs/server";
 
 import { NextRequest, NextResponse } from "next/server";
@@ -53,7 +54,7 @@ export async function POST(req: NextRequest) {
         { status: 401 }
       );
     } else {
-      await prisma.market.create({
+      const market = await prisma.market.create({
         data: {
           Question,
           description,
@@ -62,8 +63,19 @@ export async function POST(req: NextRequest) {
           endsAt: closeTime,
           yesCount: 0,
           noCount: 0,
+          yesreserve: 100,
+          noreserve: 100,
         },
       });
+
+      const yesReserveIntializeForRedis = await redis.set(
+        `yesCount${market.id}`,
+        100
+      );
+      const noReserveIntializeForRedis = await redis.set(
+        `noCount${market.id}`,
+        100
+      );
     }
 
     return NextResponse.json({ user }, { status: 200 });
@@ -85,6 +97,8 @@ export async function GET(req: NextRequest) {
     const markets = await prisma.market.findMany();
     return NextResponse.json({ markets }, { status: 200 });
   } catch (error) {
+    console.log(error);
+
     return NextResponse.json(
       { message: "Server error", error },
       { status: 500 }
