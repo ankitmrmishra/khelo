@@ -19,7 +19,7 @@ import Sheettrigger from "./Sheettrigger";
 
 import { useTradingCardStore } from "../store/atoms/TradingCradState";
 import { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface TradingCardsProps {
   title: string;

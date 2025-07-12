@@ -68,14 +68,8 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      const yesReserveIntializeForRedis = await redis.set(
-        `yesCount${market.id}`,
-        100
-      );
-      const noReserveIntializeForRedis = await redis.set(
-        `noCount${market.id}`,
-        100
-      );
+      await redis.set(`yesCount${market.id}`, 100);
+      await redis.set(`noCount${market.id}`, 100);
     }
 
     return NextResponse.json({ user }, { status: 200 });

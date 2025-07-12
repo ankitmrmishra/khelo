@@ -23,8 +23,8 @@ export default function TradeTester() {
 
       const data = await response.json();
       setResult(JSON.stringify(data, null, 2));
-    } catch (error: any) {
-      setResult(`Error: ${error.message}`);
+    } catch (error) {
+      setResult(`Error: ${error}`);
     } finally {
       setLoading(false);
     }

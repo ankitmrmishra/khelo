@@ -5,19 +5,19 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Minus, Plus } from "lucide-react";
+// import { Minus, Plus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface TradingReserve {
-  yesReserve: number | null;
-  noReserve: number | null;
+  yesPrice: number | null;
+  noPrice: number | null;
 }
 
 export function TradingSidecard() {
   const [pricing, setPricing] = useState<TradingReserve | null>({
-    yesReserve: null,
-    noReserve: null,
+    yesPrice: null,
+    noPrice: null,
   });
   const [orderType, setOrderType] = useState<"buy" | "sell">("buy");
   const [selectedOption, setSelectedOption] = useState<"YES" | "NO">("YES");
@@ -30,9 +30,12 @@ export function TradingSidecard() {
       const yesnocount = await fetch(`/api/trade/${id}/count`);
       const yesnocountdata = await yesnocount.json();
 
+      const yesreserve = yesnocountdata.yesCount;
+      const noreserve = yesnocountdata.noCount;
+
       setPricing({
-        yesReserve: yesnocountdata.yesCount,
-        noReserve: yesnocountdata.noCount,
+        yesPrice: noreserve / (yesreserve + noreserve),
+        noPrice: yesreserve / (yesreserve + noreserve),
       });
       console.log(yesnocountdata, "this is the yesnocount data ");
     };
@@ -125,7 +128,7 @@ export function TradingSidecard() {
           >
             <div className="text-center">
               <div className="font-medium">Yes</div>
-              <div className="text-sm">{pricing?.yesReserve}</div>
+              <div className="text-sm">{pricing?.yesPrice}</div>
             </div>
           </Button>
           <Button
@@ -138,7 +141,7 @@ export function TradingSidecard() {
           >
             <div className="text-center">
               <div className="font-medium">No</div>
-              <div className="text-sm">{pricing?.noReserve}</div>
+              <div className="text-sm">{pricing?.noPrice}</div>
             </div>
           </Button>
         </div>
@@ -178,14 +181,23 @@ export function TradingSidecard() {
         <div className="space-y-2 pt-2 border-t border-slate-700">
           <div className="flex justify-between items-center">
             <span className="text-white font-medium">Total</span>
-            <span className="text-blue-400 font-mono text-lg">$0</span>
+            {selectedOption === "YES" && (
+              <span className="text-blue-400 font-mono text-lg">
+                Rs{shares * (pricing?.yesPrice ?? 0)}
+              </span>
+            )}
+            {selectedOption === "NO" && (
+              <span className="text-blue-400 font-mono text-lg">
+                Rs{shares * (pricing?.noPrice ?? 0)}
+              </span>
+            )}
           </div>
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-1">
               <span className="text-white font-medium">To Win</span>
               <span className="text-green-400">💰</span>
             </div>
-            <span className="text-green-400 font-mono text-lg">$0</span>
+            <span className="text-green-400 font-mono text-lg">Rs{shares}</span>
           </div>
         </div>
 
