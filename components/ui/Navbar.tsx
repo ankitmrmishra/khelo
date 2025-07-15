@@ -33,8 +33,6 @@ const Navbar = () => {
           name: user.fullName,
         }),
       });
-
-      console.log("signed in");
     }
   }, [isSignedIn, user]);
   return (
