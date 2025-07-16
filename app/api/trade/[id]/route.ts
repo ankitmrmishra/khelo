@@ -49,8 +49,13 @@ export async function POST(
     const id = (await params).id;
 
     const body = await req.json();
-    const { tradetype, tradeAmount } = body;
-    if (!["YES", "NO"].includes(tradetype) || !tradeAmount || !tradetype) {
+    const { tradetype, tradeAmount, totalshares } = body;
+    if (
+      !["YES", "NO"].includes(tradetype) ||
+      !tradeAmount ||
+      !tradetype ||
+      !totalshares
+    ) {
       return NextResponse.json({ message: "empty response" }, { status: 401 });
     }
 
@@ -64,7 +69,14 @@ export async function POST(
         { status: 404 }
       );
     }
+    const balance = user.balance;
 
+    if (tradeAmount > balance) {
+      return NextResponse.json(
+        { message: "Balance is low, please add more money " },
+        { status: 400 }
+      );
+    }
     const market = await prisma.market.findUnique({
       where: {
         id: id,
@@ -107,6 +119,13 @@ export async function POST(
       await redis.set(`yesCount${id}`, updatereserveforyes);
       await redis.set(`noCount${id}`, updatereserveforno);
     }
+
+    await prisma.user.update({
+      where: { clerkId },
+      data: {
+        balance: balance - tradeAmount,
+      },
+    });
 
     return NextResponse.json({ traded }, { status: 200 });
   } catch (error) {
