@@ -1,0 +1,5 @@
+-- CreateEnum
+CREATE TYPE "ORDERTYPE" AS ENUM ('BUY', 'SELL');
+
+-- AlterTable
+ALTER TABLE "Trade" ADD COLUMN     "orderType" "ORDERTYPE" NOT NULL DEFAULT 'BUY';

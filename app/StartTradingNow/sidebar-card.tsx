@@ -21,7 +21,11 @@ export function TradingSidecard() {
   });
   const [orderType, setOrderType] = useState<"buy" | "sell">("buy");
   const [selectedOption, setSelectedOption] = useState<"YES" | "NO">("YES");
+  const [totalprice, settotalprice] = useState<number | null>(null);
   const [shares, setShares] = useState<number>(0);
+  //this is a temporray thing i am using here to refresh the page each trade
+  const [tradesuccess, setTradesuccess] = useState(false);
+
   const params = useParams();
   const id = params.id;
 
@@ -39,6 +43,7 @@ export function TradingSidecard() {
       });
       console.log(yesnocountdata, "this is the yesnocount data ");
     };
+
     if (id) {
       tradefetching();
     }
@@ -63,9 +68,16 @@ export function TradingSidecard() {
       return;
     }
 
+    if (selectedOption === "YES") {
+      settotalprice(pricing?.yesPrice! * shares);
+    }
+    if (selectedOption === "NO") {
+      settotalprice(pricing?.noPrice! * shares);
+    }
     const tradeData = {
       tradetype: selectedOption,
-      tradeAmount: shares,
+      tradeAmount: totalprice,
+      totalshares: shares,
     };
 
     try {

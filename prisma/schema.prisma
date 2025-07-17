@@ -23,8 +23,13 @@ enum TRADETYPE {
   NO
 }
 
+enum ORDERTYPE {
+  BUY
+  SELL
+}
+
 model User {
-  id       String  @unique @default(uuid())
+  id       String  @id @unique @default(uuid())
   clerkId  String  @unique
   name     String
   username String? @unique
@@ -34,7 +39,7 @@ model User {
 }
 
 model Market {
-  id          String       @unique @default(uuid())
+  id          String       @id @unique @default(uuid())
   Question    String
   description String
   yesCount    Int
@@ -49,11 +54,13 @@ model Market {
 }
 
 model Trade {
-  id           String    @unique @default(uuid())
+  id           String    @id @unique @default(uuid())
   UserID       String
   user         User      @relation(fields: [UserID], references: [id])
   TradeType    TRADETYPE
-  tradeAmount  Int
+  tradeAmount  Float
+  sharesbought Int
+  orderType    ORDERTYPE @default(BUY)
   time         DateTime
   predictionId String
   prediction   Market    @relation(fields: [predictionId], references: [id])

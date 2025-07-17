@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Trade" ALTER COLUMN "tradeAmount" SET DATA TYPE DOUBLE PRECISION;

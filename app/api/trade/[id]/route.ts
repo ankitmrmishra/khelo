@@ -99,6 +99,7 @@ export async function POST(
         time: new Date(),
         tradeAmount: tradeAmount,
         predictionId: id,
+        sharesbought: totalshares,
       },
     });
 
