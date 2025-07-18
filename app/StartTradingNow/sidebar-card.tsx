@@ -47,7 +47,7 @@ export function TradingSidecard() {
     if (id) {
       tradefetching();
     }
-  }, [id]);
+  }, [id, tradesuccess]);
 
   const handleOptionChange = (option: "YES" | "NO") => {
     setSelectedOption(option);
@@ -92,6 +92,7 @@ export function TradingSidecard() {
       if (response.ok) {
         alert("Trade submitted successfully!");
         setShares(0); // Reset shares after successful submission
+        setTradesuccess(!tradesuccess);
       } else {
         alert("Failed to submit trade.");
       }
