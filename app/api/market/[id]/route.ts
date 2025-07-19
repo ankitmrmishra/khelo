@@ -35,3 +35,52 @@ export async function GET(
     );
   }
 }
+
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { userId } = getAuth(req);
+
+  if (!userId) {
+    return NextResponse.json(
+      { message: "Unauthorized here " },
+      { status: 401 }
+    );
+  }
+
+  const id = (await params).id;
+  if (!id) {
+    return NextResponse.json({ message: "Unauthorized id" }, { status: 401 });
+  }
+
+  const body = await req.json();
+
+  const updatedata: any = {};
+
+  if (body.status) updatedata.status = body.status;
+
+  if (Object.keys(updatedata).length === 0) {
+    return NextResponse.json(
+      { success: false, error: "No valid fields to update" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const updatemarket = await prisma.market.update({
+      where: {
+        id: id,
+      },
+      data: updatedata,
+    });
+
+    return NextResponse.json({ success: true, updatemarket });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json(
+      { success: false, error: "Failed to update market" },
+      { status: 500 }
+    );
+  }
+}
