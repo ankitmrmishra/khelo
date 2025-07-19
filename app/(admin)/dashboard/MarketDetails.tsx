@@ -3,9 +3,15 @@
 
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+interface MarketType {
+  id: string;
+  Question: string;
+  description: string;
+  endsAt: Date;
+}
 
 export default function MarketDetails() {
-  const [markets, setMarkets] = useState([]);
+  const [markets, setMarkets] = useState<MarketType[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -18,7 +24,7 @@ export default function MarketDetails() {
 
         const data = await res.json();
         setMarkets(data.markets);
-      } catch (err: any) {
+      } catch (err) {
         setError("Failed to load markets");
         console.error(err);
       } finally {
@@ -39,11 +45,11 @@ export default function MarketDetails() {
   return (
     <div className="p-4 max-w-4xl">
       <h2 className="text-xl font-bold mb-4">All Markets</h2>
-      {markets.length === 0 ? (
+      {markets?.length === 0 ? (
         <p>No markets found.</p>
       ) : (
         <ul className="space-y-2">
-          {markets.map((market: any) => (
+          {markets?.map((market) => (
             <li
               onClick={() => handle_onclick(market.id)}
               key={market.id}

@@ -3,9 +3,8 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import MarketDetails from "./MarketDetails";
-import { Button } from "@/components/ui/button";
 
-const page = () => {
+export default function Page() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
   const [allowed, setAllowed] = useState(false);
@@ -27,6 +26,4 @@ const page = () => {
       <MarketDetails />
     </div>
   );
-};
-
-export default page;
+}

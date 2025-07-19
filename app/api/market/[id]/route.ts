@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { getAuth } from "@clerk/nextjs/server";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -56,7 +57,7 @@ export async function PATCH(
 
   const body = await req.json();
 
-  const updatedata: any = {};
+  const updatedata: Prisma.MarketUpdateInput = {};
 
   if (body.status) updatedata.status = body.status;
 

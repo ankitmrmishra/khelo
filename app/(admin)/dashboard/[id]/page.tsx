@@ -37,7 +37,7 @@ export interface Market {
   predections: Trade[];
 }
 
-const page = () => {
+export default function Page() {
   const { id } = useParams();
   const [marketdata, setMarketdata] = useState<Market | null>(null);
 
@@ -125,6 +125,4 @@ const page = () => {
       </div>
     </div>
   );
-};
-
-export default page;
+}
