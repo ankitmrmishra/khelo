@@ -68,12 +68,15 @@ export function TradingSidecard() {
       return;
     }
 
-    if (selectedOption === "YES") {
-      settotalprice(pricing?.yesPrice! * shares);
+    if (pricing) {
+      if (selectedOption === "YES" && pricing.yesPrice) {
+        settotalprice(pricing?.yesPrice * shares);
+      }
+      if (selectedOption === "NO" && pricing.noPrice) {
+        settotalprice(pricing?.noPrice * shares);
+      }
     }
-    if (selectedOption === "NO") {
-      settotalprice(pricing?.noPrice! * shares);
-    }
+
     const tradeData = {
       tradetype: selectedOption,
       tradeAmount: totalprice,
