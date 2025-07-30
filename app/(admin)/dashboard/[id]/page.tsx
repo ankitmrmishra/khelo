@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "@/components/ui/use-toast";
 
 export interface Trade {
   id: string;
@@ -40,6 +41,8 @@ export interface Market {
 export default function Page() {
   const { id } = useParams();
   const [marketdata, setMarketdata] = useState<Market | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetch_market_details = async () => {
@@ -52,16 +55,41 @@ export default function Page() {
     fetch_market_details();
   }, [id]);
 
-  const close_market = async (id: string) => {
-    await fetch(`/api/market/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        status: "CLOSED",
-      }),
-    });
+  // Generalized patch function
+  const patchMarket = async (patchData: Partial<Market>) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/market/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(patchData),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data.error || data.message || "Failed to update market"
+        );
+      }
+      setMarketdata((prev) => ({ ...prev, ...patchData } as Market));
+      toast({ title: "Market updated successfully" });
+    } catch (err: any) {
+      setError(err.message || "Unknown error");
+      toast({
+        title: "Error",
+        description: err.message || "Unknown error",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Example: Close market
+  const close_market = () => {
+    patchMarket({ status: "CLOSED" });
   };
 
   return (
@@ -73,11 +101,13 @@ export default function Page() {
             <p className="max-w-4xl">{marketdata.description}</p>
             <div className="action center">
               <Button
-                onClick={() => close_market(marketdata.id)}
+                onClick={close_market}
                 className="hover:bg-red-500"
+                disabled={loading || marketdata?.status === "CLOSED"}
               >
-                CLOSE MARKET
+                {loading ? "Closing..." : "CLOSE MARKET"}
               </Button>
+              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             </div>
             <div className="predictions bg-white/5 border-white/15 flex flex-col gap-2">
               <Table>

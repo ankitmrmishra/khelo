@@ -39,29 +39,46 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   const { userId } = getAuth(req);
 
   if (!userId) {
-    return NextResponse.json(
-      { message: "Unauthorized here " },
-      { status: 401 }
-    );
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const id = (await params).id;
+  const { id } = params;
   if (!id) {
-    return NextResponse.json({ message: "Unauthorized id" }, { status: 401 });
+    return NextResponse.json({ message: "Missing market id" }, { status: 400 });
   }
 
-  const body = await req.json();
+  let body;
+  try {
+    body = await req.json();
+  } catch (e) {
+    return NextResponse.json({ message: "Invalid JSON body" }, { status: 400 });
+  }
 
+  // Only allow these fields to be updated
+  const allowedFields = [
+    "status",
+    "Question",
+    "description",
+    "category",
+    "endsAt",
+    "startedon",
+  ] as const;
+  type AllowedField = (typeof allowedFields)[number];
   const updatedata: Prisma.MarketUpdateInput = {};
+  let hasValidField = false;
+  for (const field of allowedFields) {
+    if (body[field] !== undefined) {
+      (updatedata as any)[field] = body[field];
+      hasValidField = true;
+    }
+  }
 
-  if (body.status) updatedata.status = body.status;
-
-  if (Object.keys(updatedata).length === 0) {
+  if (!hasValidField) {
     return NextResponse.json(
       { success: false, error: "No valid fields to update" },
       { status: 400 }
@@ -70,13 +87,10 @@ export async function PATCH(
 
   try {
     const updatemarket = await prisma.market.update({
-      where: {
-        id: id,
-      },
+      where: { id },
       data: updatedata,
     });
-
-    return NextResponse.json({ success: true, updatemarket });
+    return NextResponse.json({ success: true, updatemarket }, { status: 200 });
   } catch (err) {
     console.error(err);
     return NextResponse.json(
