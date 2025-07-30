@@ -39,7 +39,7 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const { userId } = getAuth(req);
 
@@ -47,7 +47,7 @@ export async function PATCH(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = params;
+  const id = (await params).id;
   if (!id) {
     return NextResponse.json({ message: "Missing market id" }, { status: 400 });
   }
@@ -55,7 +55,7 @@ export async function PATCH(
   let body;
   try {
     body = await req.json();
-  } catch (e) {
+  } catch {
     return NextResponse.json({ message: "Invalid JSON body" }, { status: 400 });
   }
 
@@ -68,12 +68,11 @@ export async function PATCH(
     "endsAt",
     "startedon",
   ] as const;
-  type AllowedField = (typeof allowedFields)[number];
   const updatedata: Prisma.MarketUpdateInput = {};
   let hasValidField = false;
   for (const field of allowedFields) {
     if (body[field] !== undefined) {
-      (updatedata as any)[field] = body[field];
+      (updatedata as Record<string, unknown>)[field] = body[field];
       hasValidField = true;
     }
   }

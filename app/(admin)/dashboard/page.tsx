@@ -18,7 +18,7 @@ export default function Page() {
         router.push("/unauthorized");
       }
     }
-  }, [isLoaded, user]);
+  }, [isLoaded, user, router]);
 
   if (!isLoaded || !allowed) return <p>Loading...</p>;
   return (

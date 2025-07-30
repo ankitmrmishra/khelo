@@ -75,11 +75,12 @@ export default function Page() {
       }
       setMarketdata((prev) => ({ ...prev, ...patchData } as Market));
       toast({ title: "Market updated successfully" });
-    } catch (err: any) {
-      setError(err.message || "Unknown error");
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      setError(errorMessage);
       toast({
         title: "Error",
-        description: err.message || "Unknown error",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
